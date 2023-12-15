@@ -1,33 +1,31 @@
-package org.example;
+package org.thermoweb.aoc;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class DayFifteen {
+@DaySolver(15)
+public class DayFifteen implements Day {
     static final Pattern stepRegex = Pattern.compile("^(\\w+)([=-])([1-9])?$");
-    public static int partOne(final String test) {
-        return Arrays.stream(test.split(","))
+
+    @Override
+    public Optional<BigInteger> partOne(final String test) {
+        return Optional.of(Arrays.stream(test.split(","))
                 .map(DayFifteen::applyHash)
-                .reduce(0, Integer::sum);
+                .reduce(0, Integer::sum))
+                .map(BigInteger::valueOf);
     }
 
-    public static void main(String[] args) throws URISyntaxException, IOException {
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-
-        Path path = Paths.get(Objects.requireNonNull(classloader.getResource("input_15.txt")).toURI());
-        String string = Files.readString(path);
-        System.out.println(partOne(string));
-//        System.out.println(partTwo(string));
-    }
-
-    public static int partTwo(String test) {
+    @Override
+    public Optional<BigInteger> partTwo(String test) {
         Arrays.stream(test.split(","))
                 .forEach(step -> {
                     Matcher matcher = stepRegex.matcher(step);
@@ -50,7 +48,7 @@ public class DayFifteen {
         //        } else {
         //            listItems.add(newPair);
         //        }
-        return 0;
+        return Optional.of(BigInteger.ZERO);
     }
 
     public static int applyHash(String input) {
@@ -64,5 +62,14 @@ public class DayFifteen {
 //            System.out.println(current);
         }
         return current;
+    }
+
+    public static void main(String[] args) throws URISyntaxException, IOException {
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        Path path = Paths.get(Objects.requireNonNull(classloader.getResource("input_15.txt")).toURI());
+        String string = Files.readString(path);
+        Day day = new DayFifteen();
+        System.out.println(day.partOne(string));
+        System.out.println(day.partTwo(string));
     }
 }

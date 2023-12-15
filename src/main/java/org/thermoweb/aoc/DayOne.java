@@ -1,6 +1,7 @@
-package org.example;
+package org.thermoweb.aoc;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -8,28 +9,24 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class DayOne {
-    public static int partOne(final String test) {
-        return Arrays.stream(test.split("\n"))
+@DaySolver(1)
+public class DayOne implements Day {
+
+    @Override
+    public Optional<BigInteger> partOne(final String test) {
+        return Optional.of(Arrays.stream(test.split("\n"))
                 .map(line -> line.replaceAll("[^0-9]", ""))
                 .map(str -> "" + str.charAt(0) + str.charAt(str.length() - 1))
                 .map(Integer::parseInt)
-                .reduce(0, Integer::sum);
+                .reduce(0, Integer::sum))
+                .map(BigInteger::valueOf);
     }
 
-    public static void main(String[] args) throws URISyntaxException, IOException {
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-
-        Path path = Paths.get(Objects.requireNonNull(classloader.getResource("input_01.txt")).toURI());
-        String string = Files.readString(path);
-//        System.out.println(partOne(string));
-        System.out.println(partTwo(string));
-    }
-
-    public static int partTwo(String test) {
+    public Optional<BigInteger> partTwo(String test) {
         test = replaceNumbers(test);
         String testStr = String.join("\n", Arrays.stream(test.split("\n"))
                 .map(DayOne::replaceNumbers)
