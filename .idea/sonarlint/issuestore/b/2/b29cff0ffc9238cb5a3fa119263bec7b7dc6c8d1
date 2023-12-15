@@ -1,0 +1,10 @@
+
+Z
+java:S6353"=Use concise character class syntax '\\D' instead of '[^0-9]'.(Ö•¨å8òÀŸ®Â1
+L	java:S106"+Replace this use of System.out by a logger.(ÉˆÞ·øÿÿÿÿ8õÀŸ®Â1
+]	java:S125"<This block of commented-out lines of code should be removed.(öÆ¸øûÿÿÿÿ8öÀŸ®Â1
+W
+java:S18547":Remove this useless assignment to local variable "result".(§ äÄ8”ÚŸ®Â1
+H
+java:S14817"+Remove this unused "result" local variable.(§ äÄ8•ÚŸ®Â1
+X	java:S125="<This block of commented-out lines of code should be removed.(µ‘ô8•ÚŸ®Â1
