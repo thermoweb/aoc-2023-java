@@ -1,12 +1,10 @@
 package org.thermoweb.aoc;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Objects;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 public class DayRunner {
@@ -18,17 +16,18 @@ public class DayRunner {
     }
 
     public static String getInput(int day) throws IOException, URISyntaxException {
-        return getFileContent("inputs/input_" + (day > 9 ? day : "0" + day) + ".txt");
+        return getFileContent("/inputs/input_" + (day > 9 ? day : "0" + day) + ".txt");
     }
 
-    public static String getExample(int day) throws IOException, URISyntaxException {
-        return getFileContent("examples/example_" + (day > 9 ? day : "0" + day) + ".txt");
+    public static String getExample(int day) throws IOException {
+        return getFileContent("/examples/example_" + (day > 9 ? day : "0" + day) + ".txt");
     }
 
-    public static String getFileContent(String filename) throws IOException, URISyntaxException {
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        Path path = Paths.get(Objects.requireNonNull(classloader.getResource(filename)).toURI());
-        return Files.readString(path);
+    public static String getFileContent(String filename) throws IOException {
+        try (InputStream inputStream = DayRunner.class.getResourceAsStream(filename)) {
+            assert inputStream != null;
+            return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+        }
     }
 
     private static void runPartOne(Day dayToRun, String input) {
