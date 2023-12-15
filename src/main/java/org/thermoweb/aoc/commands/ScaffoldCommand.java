@@ -20,6 +20,7 @@ import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 
@@ -43,6 +44,7 @@ public class ScaffoldCommand implements Runnable {
                         .methodBuilder("partOne")
                         .addModifiers(Modifier.PUBLIC)
                         .addAnnotation(Override.class)
+                        .addParameter(ParameterSpec.builder(String.class, "input").build())
                         .returns(ParameterizedTypeName.get(ClassName.get(Optional.class), ClassName.get(BigInteger.class)))
                         .addStatement("return Optional.empty()")
                         .build())
@@ -50,24 +52,20 @@ public class ScaffoldCommand implements Runnable {
                         .methodBuilder("partTwo")
                         .addModifiers(Modifier.PUBLIC)
                         .addAnnotation(Override.class)
+                        .addParameter(ParameterSpec.builder(String.class, "input").build())
                         .returns(ParameterizedTypeName.get(ClassName.get(Optional.class), ClassName.get(BigInteger.class)))
                         .addStatement("return Optional.empty()")
                         .build())
                 .build();
         System.out.println(dayClass);
+        Path output = Paths.get("").toAbsolutePath().resolve(Path.of("src/main/java")); ///java/org/thermoweb/aoc/days/Day" + dayNumber + ".java
+        System.out.println("writing class to : " + output);
         JavaFile javaFile = JavaFile
-                .builder("com.baeldung.javapoet.dayClass", dayClass)
+                .builder("org.thermoweb.aoc.days", dayClass)
                 .indent("    ")
-                .addStaticImport(Date.class, "UTC")
-                .addStaticImport(ClassName.get("java.time", "ZonedDateTime"), "*")
                 .build();
         try {
-            Path path = Path.of(AOC.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-            System.out.println(path);
-            File currentDirFile = new File(".");
-            String helper = currentDirFile.getAbsolutePath();
-            String currentDir = helper.substring(0, helper.length() - currentDirFile.getCanonicalPath().length());//this line may need a try-catch block
-            System.out.println(currentDir);
+            javaFile.writeTo(output);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

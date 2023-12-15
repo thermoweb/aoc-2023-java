@@ -17,7 +17,7 @@ import org.thermoweb.aoc.DaySolver;
 
 @DaySolver(15)
 public class DayFifteen implements Day {
-    static final Pattern stepRegex = Pattern.compile("^(\\w+)([=-])([1-9])?$");
+    public static final Pattern stepRegex = Pattern.compile("^(\\w+)([=-])([1-9])?$");
 
     @Override
     public Optional<BigInteger> partOne(final String test) {
