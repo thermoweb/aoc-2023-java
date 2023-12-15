@@ -1,17 +1,14 @@
-package org.thermoweb.aoc;
+package org.thermoweb.aoc.days;
 
-import java.io.IOException;
 import java.math.BigInteger;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.thermoweb.aoc.Day;
+import org.thermoweb.aoc.DaySolver;
 
 @DaySolver(1)
 public class DayOne implements Day {

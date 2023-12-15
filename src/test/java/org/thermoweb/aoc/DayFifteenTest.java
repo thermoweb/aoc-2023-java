@@ -3,7 +3,7 @@ package org.thermoweb.aoc;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
-import org.thermoweb.aoc.DayFifteen;
+import org.thermoweb.aoc.days.DayFifteen;
 
 import static org.junit.jupiter.api.Assertions.*;
 

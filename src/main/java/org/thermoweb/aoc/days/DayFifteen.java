@@ -1,4 +1,4 @@
-package org.thermoweb.aoc;
+package org.thermoweb.aoc.days;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -11,6 +11,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.thermoweb.aoc.Day;
+import org.thermoweb.aoc.DaySolver;
 
 @DaySolver(15)
 public class DayFifteen implements Day {
@@ -66,7 +69,7 @@ public class DayFifteen implements Day {
 
     public static void main(String[] args) throws URISyntaxException, IOException {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        Path path = Paths.get(Objects.requireNonNull(classloader.getResource("input_15.txt")).toURI());
+        Path path = Paths.get(Objects.requireNonNull(classloader.getResource("inputs/input_15.txt")).toURI());
         String string = Files.readString(path);
         Day day = new DayFifteen();
         System.out.println(day.partOne(string));

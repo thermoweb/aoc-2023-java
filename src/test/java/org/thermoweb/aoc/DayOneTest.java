@@ -4,7 +4,7 @@ import java.math.BigInteger;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
-import org.thermoweb.aoc.DayOne;
+import org.thermoweb.aoc.days.DayOne;
 
 import static org.junit.jupiter.api.Assertions.*;
 

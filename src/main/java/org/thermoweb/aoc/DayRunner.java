@@ -13,7 +13,7 @@ public class DayRunner {
 
     public static void runDay(Day dayToRun, int day) throws URISyntaxException, IOException {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        Path path = Paths.get(Objects.requireNonNull(classloader.getResource("input_" + (day > 9 ? day : "0" + day) + ".txt")).toURI());
+        Path path = Paths.get(Objects.requireNonNull(classloader.getResource("inputs/input_" + (day > 9 ? day : "0" + day) + ".txt")).toURI());
         String input = Files.readString(path);
         runPartOne(dayToRun, input);
         runPartTwo(dayToRun, input);
