@@ -1,19 +1,5 @@
 package org.thermoweb.aoc.commands;
 
-import java.io.IOException;
-import java.math.BigInteger;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Optional;
-
-import javax.lang.model.element.Modifier;
-
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.thermoweb.aoc.Day;
-import org.thermoweb.aoc.DayRunner;
-import org.thermoweb.aoc.DaySolver;
-
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
@@ -23,8 +9,19 @@ import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.thermoweb.aoc.Day;
+import org.thermoweb.aoc.DayRunner;
+import org.thermoweb.aoc.DaySolver;
 import picocli.CommandLine;
+
+import javax.lang.model.element.Modifier;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Optional;
 
 @CommandLine.Command(name = "scaffold")
 public class ScaffoldCommand implements Runnable {
@@ -35,6 +32,11 @@ public class ScaffoldCommand implements Runnable {
     @Override
     public void run() {
         String dayNumber = String.valueOf(day);
+
+        Path currentDir = Paths.get("");
+        Path classOutput = currentDir.toAbsolutePath().resolve(Path.of("src/main/java"));
+        Path testOutput = currentDir.toAbsolutePath().resolve(Path.of("src/test/java"));
+
         TypeSpec dayClass = TypeSpec
                 .classBuilder("Day" + dayNumber)
                 .addModifiers(Modifier.PUBLIC)
@@ -79,8 +81,6 @@ public class ScaffoldCommand implements Runnable {
                         .build())
                 .build();
 
-        Path currentDir = Paths.get("");
-        Path classOutput = currentDir.toAbsolutePath().resolve(Path.of("src/main/java"));
         JavaFile javaFile = JavaFile
                 .builder("org.thermoweb.aoc.days", dayClass)
                 .indent("    ")
@@ -90,7 +90,6 @@ public class ScaffoldCommand implements Runnable {
                 .indent("    ")
                 .addStaticImport(Assertions.class, "assertEquals")
                 .build();
-        Path testOutput = currentDir.toAbsolutePath().resolve(Path.of("src/test/java"));
         try {
             javaFile.writeTo(classOutput);
             testFile.writeTo(testOutput);

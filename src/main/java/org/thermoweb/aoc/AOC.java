@@ -1,11 +1,16 @@
 package org.thermoweb.aoc;
 
+import org.thermoweb.aoc.commands.DownloadCommand;
 import org.thermoweb.aoc.commands.ScaffoldCommand;
 import org.thermoweb.aoc.commands.SolveDayCommand;
 
 import picocli.CommandLine;
 
-@CommandLine.Command(name = "aoc", subcommands = {SolveDayCommand.class, ScaffoldCommand.class})
+@CommandLine.Command(name = "aoc", subcommands = {
+        SolveDayCommand.class,
+        ScaffoldCommand.class,
+        DownloadCommand.class
+})
 public class AOC {
 
     private AOC() {

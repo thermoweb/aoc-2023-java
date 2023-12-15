@@ -1,11 +1,13 @@
 package org.thermoweb.aoc;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigInteger;
 import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class DayRunner {
 
@@ -16,17 +18,16 @@ public class DayRunner {
     }
 
     public static String getInput(int day) throws IOException, URISyntaxException {
-        return getFileContent("/inputs/input_" + (day > 9 ? day : "0" + day) + ".txt");
+        return getFileContent("inputs/input_" + (day > 9 ? day : "0" + day) + ".txt");
     }
 
     public static String getExample(int day) throws IOException {
-        return getFileContent("/examples/example_" + (day > 9 ? day : "0" + day) + ".txt");
+        return getFileContent("examples/example_" + (day > 9 ? day : "0" + day) + ".txt");
     }
 
     public static String getFileContent(String filename) throws IOException {
-        try (InputStream inputStream = DayRunner.class.getResourceAsStream(filename)) {
-            assert inputStream != null;
-            return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+        try (Stream<String> lines = Files.lines(Path.of(filename))) {
+            return lines.collect(Collectors.joining("\n"));
         }
     }
 
