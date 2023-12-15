@@ -12,11 +12,23 @@ import java.util.Optional;
 public class DayRunner {
 
     public static void runDay(Day dayToRun, int day) throws URISyntaxException, IOException {
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        Path path = Paths.get(Objects.requireNonNull(classloader.getResource("inputs/input_" + (day > 9 ? day : "0" + day) + ".txt")).toURI());
-        String input = Files.readString(path);
+        String input = getInput(day);
         runPartOne(dayToRun, input);
         runPartTwo(dayToRun, input);
+    }
+
+    public static String getInput(int day) throws IOException, URISyntaxException {
+        return getFileContent("inputs/input_" + (day > 9 ? day : "0" + day) + ".txt");
+    }
+
+    public static String getExample(int day) throws IOException, URISyntaxException {
+        return getFileContent("examples/example_" + (day > 9 ? day : "0" + day) + ".txt");
+    }
+
+    public static String getFileContent(String filename) throws IOException, URISyntaxException {
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        Path path = Paths.get(Objects.requireNonNull(classloader.getResource(filename)).toURI());
+        return Files.readString(path);
     }
 
     private static void runPartOne(Day dayToRun, String input) {

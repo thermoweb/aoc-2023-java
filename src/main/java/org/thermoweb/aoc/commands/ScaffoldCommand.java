@@ -1,27 +1,27 @@
 package org.thermoweb.aoc.commands;
 
-import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
-import java.util.Objects;
 import java.util.Optional;
 
 import javax.lang.model.element.Modifier;
 
-import org.thermoweb.aoc.AOC;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.thermoweb.aoc.Day;
+import org.thermoweb.aoc.DayRunner;
 import org.thermoweb.aoc.DaySolver;
 
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
+import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
 import picocli.CommandLine;
@@ -57,15 +57,43 @@ public class ScaffoldCommand implements Runnable {
                         .addStatement("return Optional.empty()")
                         .build())
                 .build();
-        System.out.println(dayClass);
-        Path output = Paths.get("").toAbsolutePath().resolve(Path.of("src/main/java")); ///java/org/thermoweb/aoc/days/Day" + dayNumber + ".java
-        System.out.println("writing class to : " + output);
+        TypeSpec testClass = TypeSpec
+                .classBuilder("Day" + dayNumber + "Test")
+                .addModifiers(Modifier.PUBLIC)
+                .addField(FieldSpec.builder(TypeName.get(Day.class), "day")
+                        .initializer("new Day" + dayNumber + "()")
+                        .addModifiers(Modifier.FINAL)
+                        .addModifiers(Modifier.PRIVATE)
+                        .build())
+                .addMethod(MethodSpec
+                        .methodBuilder("test_part_one")
+                        .addAnnotation(Test.class)
+                        .addException(Exception.class)
+                        .addStatement("assertEquals($T.empty(), day.partOne($T.getExample(" + dayNumber + ")))", Optional.class, TypeName.get(DayRunner.class))
+                        .build())
+                .addMethod(MethodSpec
+                        .methodBuilder("test_part_two")
+                        .addAnnotation(Test.class)
+                        .addException(Exception.class)
+                        .addStatement("assertEquals($T.empty(), day.partTwo($T.getExample(" + dayNumber + ")))", Optional.class, TypeName.get(DayRunner.class))
+                        .build())
+                .build();
+
+        Path currentDir = Paths.get("");
+        Path classOutput = currentDir.toAbsolutePath().resolve(Path.of("src/main/java"));
         JavaFile javaFile = JavaFile
                 .builder("org.thermoweb.aoc.days", dayClass)
                 .indent("    ")
                 .build();
+        JavaFile testFile = JavaFile
+                .builder("org.thermoweb.aoc.days", testClass)
+                .indent("    ")
+                .addStaticImport(Assertions.class, "assertEquals")
+                .build();
+        Path testOutput = currentDir.toAbsolutePath().resolve(Path.of("src/test/java"));
         try {
-            javaFile.writeTo(output);
+            javaFile.writeTo(classOutput);
+            testFile.writeTo(testOutput);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
