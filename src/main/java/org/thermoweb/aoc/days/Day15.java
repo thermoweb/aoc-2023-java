@@ -1,6 +1,8 @@
 package org.thermoweb.aoc.days;
 
 import java.io.IOException;
+import java.lang.Override;
+import java.lang.String;
 import java.math.BigInteger;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -16,20 +18,19 @@ import org.thermoweb.aoc.Day;
 import org.thermoweb.aoc.DaySolver;
 
 @DaySolver(15)
-public class DayFifteen implements Day {
+public class Day15 implements Day {
     public static final Pattern stepRegex = Pattern.compile("^(\\w+)([=-])([1-9])?$");
-
     @Override
-    public Optional<BigInteger> partOne(final String test) {
-        return Optional.of(Arrays.stream(test.split(","))
-                .map(DayFifteen::applyHash)
-                .reduce(0, Integer::sum))
+    public Optional<BigInteger> partOne(String input) {
+        return Optional.of(Arrays.stream(input.split(","))
+                        .map(Day15::applyHash)
+                        .reduce(0, Integer::sum))
                 .map(BigInteger::valueOf);
     }
 
     @Override
-    public Optional<BigInteger> partTwo(String test) {
-        Arrays.stream(test.split(","))
+    public Optional<BigInteger> partTwo(String input) {
+        Arrays.stream(input.split(","))
                 .forEach(step -> {
                     Matcher matcher = stepRegex.matcher(step);
                     System.out.printf("%n[%s] -> %s%n", step, matcher.find());
@@ -54,6 +55,8 @@ public class DayFifteen implements Day {
         return Optional.of(BigInteger.ZERO);
     }
 
+
+
     public static int applyHash(String input) {
         int current = 0;
         for (char c : input.toCharArray()) {
@@ -71,7 +74,7 @@ public class DayFifteen implements Day {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         Path path = Paths.get(Objects.requireNonNull(classloader.getResource("inputs/input_15.txt")).toURI());
         String string = Files.readString(path);
-        Day day = new DayFifteen();
+        Day day = new Day15();
         System.out.println(day.partOne(string));
         System.out.println(day.partTwo(string));
     }
