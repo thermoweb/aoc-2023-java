@@ -11,6 +11,8 @@ import java.net.http.HttpResponse;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Optional;
 
 @CommandLine.Command(name = "download")
@@ -38,9 +40,10 @@ public class DownloadCommand implements Runnable {
         try {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             String input = response.body();
-            Files.write(Path.of("inputs/input_" + (day > 9 ? day : "0" + day) + ".txt"), input.getBytes());
-            File exampleFile = new File("examples/example_" + (day > 9 ? day : "0" + day) + ".txt");
-            exampleFile.createNewFile();
+            Files.createDirectories(Paths.get("inputs"));
+            Files.write(Path.of("inputs/input_" + (day > 9 ? day : "0" + day) + ".txt"), input.getBytes(), StandardOpenOption.CREATE);
+            Files.createDirectories(Paths.get("examples"));
+            Files.createFile(Path.of("examples/example_" + (day > 9 ? day : "0" + day) + ".txt"));
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
