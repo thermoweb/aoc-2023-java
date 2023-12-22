@@ -27,7 +27,7 @@ public class SolveDayCommand implements Callable<Integer> {
         Reflections reflections = new Reflections("org.thermoweb.aoc");
         Set<Class<?>> daySolvers = reflections.get(SubTypes.of(TypesAnnotated.with(DaySolver.class)).asClass());
         Class<?> daySolver = daySolvers.stream()
-                .filter(ds -> ds.getAnnotation(DaySolver.class).value() == 1 && Arrays.stream(ds.getInterfaces()).anyMatch(i -> i == Day.class))
+                .filter(ds -> ds.getAnnotation(DaySolver.class).value() == day && Arrays.stream(ds.getInterfaces()).anyMatch(i -> i == Day.class))
                 .findFirst()
                 .orElseThrow();
         Constructor<?> constructor = Arrays.stream(daySolver.getDeclaredConstructors())
