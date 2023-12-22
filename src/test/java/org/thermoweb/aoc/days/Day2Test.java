@@ -23,6 +23,6 @@ public class Day2Test {
 
     @Test
     void test_part_two() throws Exception {
-        assertEquals(Optional.empty(), day.partTwo(DayRunner.getExample(2)));
+        assertEquals(Optional.of(BigInteger.valueOf(2286)), day.partTwo(DayRunner.getExample(2)));
     }
 }
